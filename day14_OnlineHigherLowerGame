@@ -1,0 +1,35 @@
+from art import logo
+from art import vs
+from game_data import data
+import random
+def compare(a_dict, b_dict):
+  a_count = a_dict['follower_count']
+  b_count = b_dict['follower_count']
+  if a_count > b_count :
+    return 'A'
+  else:
+    return 'B'
+  
+
+group_A_num = random.randint(0,45)
+group_A = data[group_A_num]
+play = input("Would you like to play Higher-Lower? You will be guessing which individual has more followers on social media! Select y/n")
+user_score = 0
+print(logo)
+while play == 'y':
+  group_B = data[random.randint(0,45)]
+  print(f"Compare A: {group_A['name']}, {group_A['description']}, from {group_A['country']}")
+  print(vs)
+  print(f"Compare B: {group_B['name']}, {group_B['description']}, from {group_B['country']}")
+  user_guess = input("Who has more Followers? Type 'A' or 'B'")
+  if user_guess == compare(group_A, group_B):
+    user_score += 1
+    print(f"You're correct, you currently have {user_score} points! Next Question!")
+    group_A = group_B 
+  else:
+    print(f"Oh no that was incorrect, your high score was {user_score}")
+    play = input("Would you like to play again? y/n")
+if play == 'n':
+  print("Better luck next time! Have a wonderful day, thanks for playing!")
+
+
