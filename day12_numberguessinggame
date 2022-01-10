@@ -1,0 +1,55 @@
+#Day 12 Final Project Numbers Guessing Game
+logo = """
+                                                                                                                                                                                                                                          .         .                          
+8888888 8888888888 8 8888        8 8 8888888888                ,o888888o.    8 8888      88 8 8888888888     d888888o.      d888888o.   8 8888 b.             8     ,o888888o.                 ,o888888o.          .8.                   ,8.       ,8.          8 8888888888   
+      8 8888       8 8888        8 8 8888                     8888     `88.  8 8888      88 8 8888         .`8888:' `88.  .`8888:' `88. 8 8888 888o.          8    8888     `88.              8888     `88.       .888.                 ,888.     ,888.         8 8888         
+      8 8888       8 8888        8 8 8888                  ,8 8888       `8. 8 8888      88 8 8888         8.`8888.   Y8  8.`8888.   Y8 8 8888 Y88888o.       8 ,8 8888       `8.          ,8 8888       `8.     :88888.               .`8888.   .`8888.        8 8888         
+      8 8888       8 8888        8 8 8888                  88 8888           8 8888      88 8 8888         `8.`8888.      `8.`8888.     8 8888 .`Y888888o.    8 88 8888                    88 8888              . `88888.             ,8.`8888. ,8.`8888.       8 8888         
+      8 8888       8 8888        8 8 888888888888          88 8888           8 8888      88 8 888888888888  `8.`8888.      `8.`8888.    8 8888 8o. `Y888888o. 8 88 8888                    88 8888             .8. `88888.           ,8'8.`8888,8^8.`8888.      8 888888888888 
+      8 8888       8 8888        8 8 8888                  88 8888           8 8888      88 8 8888           `8.`8888.      `8.`8888.   8 8888 8`Y8o. `Y88888o8 88 8888                    88 8888            .8`8. `88888.         ,8' `8.`8888' `8.`8888.     8 8888         
+      8 8888       8 8888888888888 8 8888                  88 8888   8888888 8 8888      88 8 8888            `8.`8888.      `8.`8888.  8 8888 8   `Y8o. `Y8888 88 8888   8888888          88 8888   8888888 .8' `8. `88888.       ,8'   `8.`88'   `8.`8888.    8 8888         
+      8 8888       8 8888        8 8 8888                  `8 8888       .8' ` 8888     ,8P 8 8888        8b   `8.`8888. 8b   `8.`8888. 8 8888 8      `Y8o. `Y8 `8 8888       .8'          `8 8888       .8'.8'   `8. `88888.     ,8'     `8.`'     `8.`8888.   8 8888         
+      8 8888       8 8888        8 8 8888                     8888     ,88'    8888   ,d8P  8 8888        `8b.  ;8.`8888 `8b.  ;8.`8888 8 8888 8         `Y8o.`    8888     ,88'              8888     ,88'.888888888. `88888.   ,8'       `8        `8.`8888.  8 8888         
+      8 8888       8 8888        8 8 888888888888              `8888888P'       `Y88888P'   8 888888888888 `Y8888P ,88P'  `Y8888P ,88P' 8 8888 8            `Yo     `8888888P'                 `8888888P' .8'       `8. `88888. ,8'         `         `8.`8888. 8 888888888888 
+"""
+import random
+def compare(player, house):
+    if player > house:
+        print("Too high")
+    elif player < house:
+        print("Too low")
+    elif player == house:
+        print("You got it! You win!")
+start = True
+while start == True:
+    play = input("Would you like to play a game? Select 'y' or 'n'")
+    while play == 'y':
+        print("Welcome to The Number Guessing Game!")
+        print(logo)
+        print("I'm thinking of a number between 1 and 100")
+        answer = random.randint(0,101)
+        #print(answer)
+        difficulty_level = input("Choose a difficulty. Type 'easy' or 'hard'")
+        if difficulty_level == 'easy':
+            for turn in range(0,10):
+                turns_left = 10 - turn
+                print(f"You have {turns_left} turns left")
+                player_guess = int(input("Make a Guess"))
+                compare(player_guess, answer)
+                if player_guess == answer:
+                    break
+                if turns_left == 0:
+                    print("You've run out of turns, you lose!")
+                    break
+        if difficulty_level == 'hard':
+            for turn in range(0,5):
+                turns_left = 5 - turn
+                print(f"You have {turns_left} turns left")
+                player_guess = int(input("Make a Guess"))
+                compare(player_guess, answer)
+                if player_guess == answer:
+                    break
+                if turns_left == 1:
+                    print("You've run out of turns, you lose!")
+                    break
+        play = input("Would you like to play again? Select 'y' or 'n'")
