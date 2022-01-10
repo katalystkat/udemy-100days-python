@@ -1,0 +1,80 @@
+#Day 11 Blackjack Capstone Project
+#from art import logo
+#from replit import clear
+import random
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+def deal_card(holder):
+    cards_drawn = random.choice(cards)
+    holder.append(cards_drawn)
+def start_game():
+  #print(logo)
+  deal_card(user_cards)
+  deal_card(user_cards)
+  deal_card(house_cards)
+  deal_card(house_cards)
+  show_hands()
+def show_hands():
+  print(f"Your cards: {user_cards}, current score: {sum(user_cards)}")
+  print(f"Computer's first card : {house_cards[0]}")
+def show_final():
+    print(f"Your final hand: {user_cards}, final score:{sum(user_cards)}")
+    print(f"Computer's final hand : {house_cards}, final score:{sum(house_cards)}")
+def user_score():
+    return sum(user_cards)
+def house_score():
+    return sum(house_cards)
+play = input("Do you want to play a game of blackjack? Type 'y' or 'n'")
+  #clear()
+while play == 'y':
+    user_cards = []
+    house_cards = []
+    user_deal = True
+    house_deal = True
+    start_game()
+    if user_score() == 21:
+        if user_score() == house_score():
+            print("You tied")
+        else:
+            print("You win by Blackjack!")
+            play = input("Would you like to play again? Select 'y' or 'n'")
+            user_deal = False
+            house_deal = False
+    while user_deal == True:
+        to_deal = input("Type 'y' to get another card, type 'n' to pass:")
+        if to_deal == 'n':
+                user_deal = False
+        if to_deal == 'y':
+            deal_card(user_cards)
+            show_hands()
+            if user_score() > 21:
+                print("You lose by bust :(")
+                house_deal = False
+                user_deal =  False
+                play = input("Would you like to play again? Select 'y' or 'n'")
+            elif user_score() == 21:
+                user_deal = False
+    while house_deal == True:
+        if house_score() == user_score():
+            show_final()
+            print("You tied")
+            play = input("Would you like to play again? Select 'y' or 'n'")
+        while house_score() < 17:
+            show_final()
+            deal_card(house_cards)
+        if house_score() > 21:
+            show_final()
+            print("You win")
+            house_deal = False
+            play = input("Would you like to play again? Select 'y' or 'n'")
+        elif house_score() < 22 and house_score() > sum(user_cards):
+            show_final()
+            print("You lose")
+            house_deal = False
+            play = input("Would you like to play again? Select 'y' or 'n'")
+        elif house_score() == user_score():
+            show_final()
+            print("You tied!")
+            house_deal = False
+            play = input("Would you like to play again? Select 'y' or 'n'")
+    
+    
