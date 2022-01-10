@@ -1,0 +1,21 @@
+
+#Silent Bidding but missing clear() function
+bids = {}
+bidding = True
+highest_bid = 0
+while bidding == True:
+  name = input("What is your name?")
+  bid_amount = int(input("What is your bid?"))
+  bids[name] = bid_amount
+  continuation = input("Are there other bidders? Y/N")
+  if continuation == "N":
+      bidding = False
+  else: 
+      bidding = True
+for bidders in bids:
+    if bids[bidders] > highest_bid:
+        highest_bid = bids[bidders]
+        highest_bidder = bidders
+print(bids)
+print(f"The highest bid is {highest_bid} by {highest_bidder}")
+
