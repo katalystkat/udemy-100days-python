@@ -1,0 +1,56 @@
+
+#calculator
+
+#add
+def add(n1, n2):
+  return n1 + n2
+#subtract
+def subtract(n1, n2):
+  return n1 - n2
+#multiply
+def multiply(n1, n2):
+  return n1*n2
+#divide
+def divide(n1, n2):
+  return n1/n2
+
+operations = {
+  "+" : add,
+  "-" : subtract,
+  "*" : multiply,
+  "/" : divide
+}
+total_equation = []
+num1 = float(input("What's the first number?"))
+total_equation.append(num1)
+for functions in operations:
+  print(functions)
+operation_symbol = input("Pick an operation from the line above")
+total_equation.append(operation_symbol)
+calculation_function = operations[operation_symbol]
+num2 = float(input("What's the second number?"))
+total_equation.append(num2)
+previous_answer = calculation_function(num1, num2)
+print(f"{num1}{operation_symbol}{num2}={previous_answer}")
+
+
+'''operation_symbol = input("Pick another operation")
+num3 = int(input("What's the next number?"))
+calculation_function = operations[operation_symbol]
+previous_answer = calculation_function(first_answer, num3)
+print(f"{first_answer}{operation_symbol}{num3}={previous_answer}")
+'''
+while not operation_symbol == False:
+    operation_symbol = input("What new function would you like to use? If you would not like to continue, press N")
+    if operation_symbol == "N":
+        operation_symbol = False
+        print(f" {total_equation} = {new_answer}")
+    else:
+        total_equation.append(operation_symbol)
+        new_num = float(input("What's the next number?"))
+        total_equation.append(new_num)
+        calculation_function = operations[operation_symbol]
+        new_answer = calculation_function(previous_answer, new_num)
+    previous_answer = new_answer
+    
+
