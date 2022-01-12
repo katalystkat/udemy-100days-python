@@ -1,0 +1,112 @@
+from art import coffee
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+            "milk": 0,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+    "income": 0,
+}
+
+
+def add_income():
+    income = round((total_currency_input - drink_cost), 2)
+    resources["income"] += income
+
+
+def user_currency():
+    quarters_value = 0.25 * int(input("How many quarters would you like to insert?"))
+    dimes_value = 0.10 * int(input("How many dimes would you like to insert?"))
+    nickels_value = 0.05 * int(input("How many nickels would you like to insert?"))
+    pennies_value = 0.01 * int(input("How many pennies would you like to insert?"))
+    total_currency = round((quarters_value + dimes_value + nickels_value + pennies_value), 2)
+    return total_currency
+
+
+def req_report():
+    print(f"Currently there is {resources} remaining.")
+
+
+def check_resources(drink_choice):
+    if MENU[drink_choice]["ingredients"]["water"] > resources["water"] or MENU[drink_choice]["ingredients"]["milk"] > \
+            resources["milk"] or MENU[drink_choice]["ingredients"]["coffee"] > resources["coffee"]:
+        return "Insufficient Resources"
+    else:
+        print(f"That will be {drink_cost}")
+
+
+def make_coffee(drink_input):
+    resources["water"] -= MENU[drink_input]["ingredients"]["water"]
+    resources["milk"] -= MENU[drink_input]["ingredients"]["milk"]
+    resources["coffee"] -= MENU[drink_input]["ingredients"]["coffee"]
+
+
+def drink_cost_calculate(drink_input):
+    return MENU[drink_input]["cost"]
+
+
+def pay_process(user_input, drink_name):
+    attempt = "y"
+    cost_difference = round(user_input - drink_cost_calculate(drink_name), 2)
+    while attempt == "y":
+        if user_input < drink_cost_calculate(drink_name):
+            print("That was insufficient currency, your money has been refunded! Please try again, maybe with the "
+                  "help of "
+                  "your calculator?")
+        elif user_input == drink_cost_calculate(drink_name):
+            print("Drink loading... ☕")
+            attempt = 'n'
+        elif user_input > drink_cost_calculate(drink_name):
+            print(f"Thank you! {cost_difference} has been refunded to you!")
+            print("Drink loading... ☕")
+            attempt = 'n'
+
+
+print("Welcome to Kat's Python Cafe!")
+mach_turnon = 'y'
+while mach_turnon == 'y':
+    drink_chosen = input("What would you like to drink today? Select espresso/latte/cappuccino/report/poweroff")
+    if drink_chosen == "report":
+        req_report()
+        drink_chosen = input("What would you like to drink today? Select espresso/latte/cappuccino/report")
+    if drink_chosen == "poweroff":
+        exit()
+    drink_cost = drink_cost_calculate(drink_chosen)
+    check_resources(drink_chosen)
+    make_coffee(drink_chosen)
+    total_currency_input = user_currency()
+    pay_process(total_currency_input, drink_chosen)
+    add_income()
+    print(f"Here you go! Enjoy it while it's hot :) {coffee}")
+    mach_turnon = input("Would you like to make another drink? Please select y/n")
+
+# TODO Turn off the Coffee Machine by entering "off" to the prompt.
+# TODO Check resource availability prior to any depletion
+# TODO Process coins
+# TODO Check transaction successful, if not it is refunded.
+#  If so, needs to be added as profits. & Excess will be returned
