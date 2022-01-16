@@ -1,0 +1,29 @@
+# How to create our own custom classes
+class User:
+    # Constructor
+    def __init__(self, id, username):
+        self.id = id
+        self.username = username
+        self.followers = 0
+        self.following = 0
+
+    def follow(self, user):
+        user.followers += 1
+        self.following += 1
+
+
+'''
+PascalCase
+camelCase
+snake_case
+'''
+user_1 = User("001", "Angela")
+user_2 = User("002", "Jack")
+print(user_1.id)
+print(user_1.followers)
+# Here, we don't set the followers count to this user, but our initialization sets it equal to 0 for all new users
+# created
+user_1.follow(user_2)
+print(user_1.followers)
+print(user_1.following)
+print(user_2.followers)
