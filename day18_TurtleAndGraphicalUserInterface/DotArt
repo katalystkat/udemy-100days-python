@@ -1,0 +1,31 @@
+import colorgram
+import turtle as t
+import random
+t.colormode(255)
+#
+# colors = colorgram.extract('KatPhoto.jpeg', 30)
+# color_tuples = []
+# print((colors[0]).rgb)
+
+color_tuples = [(129, 90, 45), (55, 41, 22), (205, 156, 99), (85, 72, 27), (154, 140, 71), (161, 24, 7), (226, 90, 37), (42, 29, 31), (235, 200, 178), (88, 76, 82)]
+tim = t.Turtle()
+tim.penup()
+tim.hideturtle()
+starting_x = -300
+starting_y = -250
+tim.setposition(starting_x, starting_y)
+for n in range(10):
+    for n in range(10):
+        tim.forward(50)
+        tim.dot(20, random.choice(color_tuples))
+    starting_y += 50
+    tim.setposition(starting_x, starting_y)
+# tim.dot(20, (color_tuples[0]))
+screen = t.Screen()
+screen.exitonclick()
+#
+# for color in range(30):
+#     total_color = (colors[color]).rgb
+#     color_tuple = (total_color.r, total_color.g, total_color.b)
+#     color_tuples.append(color_tuple)
+# print(color_tuples)
