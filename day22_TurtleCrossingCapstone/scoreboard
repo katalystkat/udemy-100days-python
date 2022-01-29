@@ -1,0 +1,34 @@
+from turtle import Turtle
+FONT = ("Courier", 24, "normal")
+
+
+class Scoreboard(Turtle):
+    def __init__(self):
+        super().__init__()
+        self.penup()
+        self.hideturtle()
+        self.color("Black")
+        self.current_level = 1
+        self.goto(-280, 250)
+        self.write("Level :", move=False, align="left", font=FONT)
+        self.goto(-120, 250)
+        self.write(self.current_level, move=False, align="left", font=FONT)
+
+    def update_scoreboard(self):
+        self.clear()
+        self.hideturtle()
+        self.penup()
+        self.goto(-280, 250)
+        self.write("Level :", move=False, align="left", font=FONT)
+        self.goto(-120, 250)
+        self.write(self.current_level, move=False, align="left", font=FONT)
+
+    def add_score(self):
+        self.current_level += 1
+        self.update_scoreboard()
+
+    def game_over(self):
+        self.goto(0,0)
+        self.write("GAME OVER", move=False, align="center", font=FONT)
+
+
