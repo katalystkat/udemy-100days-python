@@ -30,3 +30,8 @@ class CarManager(Turtle):
 
     def level_up(self):
         self.car_speed += 3
+        
+    def hide_cars(self):
+        for car in self.all_cars:
+            car.hideturtle()
+            car.penup()
