@@ -1,0 +1,12 @@
+PLACEHOLDER = "[name]"
+
+with open("Input/Names/invited_names.txt", mode='r') as names:
+    name_list = names.readlines()
+
+with open("Input/Letters/starting_letter.txt", mode='r') as letter_template:
+    template = letter_template.read()
+    for each_name in name_list:
+        new_name = each_name.strip()
+        uniq_letter = template.replace(PLACEHOLDER, new_name)
+        with open(f"Output/ReadyToSend/Invitation_for_{new_name}", mode='w') as new_letter:
+            new_letter.write(uniq_letter)
