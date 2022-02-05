@@ -1,0 +1,108 @@
+'''
+
+with open("weather_data.csv", mode='r') as weather_data:
+    weather_list = weather_data.readlines()
+    #This reads the info as one singular list of all the lines
+    #print(weather_list)
+
+import csv
+
+with open("weather_data.csv", mode='r') as data_file:
+    data = csv.reader(data_file)
+    #this will make lists of each individual line/row with each individual value separated)
+    temperatures = []
+    for row in data:
+        if row[1] != "temp":
+            temp = int(row[1])
+            temperatures.append(temp)
+    print(temperatures)'''
+
+'''
+
+import pandas
+data = pandas.read_csv("weather_data.csv")
+# print(data["temp"])
+
+#Above is just demonstration of why we use pandas instead of csv when working w csv files
+
+data_dict = data.to_dict()
+print(data_dict)
+
+temp_list = data["temp"].to_list()
+print(temp_list)
+
+average_temp = sum(temp_list)/len(temp_list)
+print(average_temp)
+
+# jOKE'S ON US, there's a method for this in pandas
+print(data["temp"].mean())
+
+print(data["temp"].max())
+
+#Get Data in ; green string here has to match the name in the actual table
+print(data["condition"])
+#below method also prints the conditions
+print(data.condition)
+
+#Get data in Row
+print(data[data.day == "Monday"])
+print(data[data.temp == data.temp.max()])
+monday = data[data.day == "Monday"]
+print(monday.condition)
+monday_temp = int(monday.temp)
+monday_temperature_f = monday_temp * 9/5 + 32
+print(f"Fahrenheit: {monday_temperature_f}, Celcius: {monday_temp}")
+
+#Create a dataframe from scratch
+data_dict = {
+    "students": ["Amy", "James", "Angela"],
+    "scores": [76, 56, 65]
+}
+data = pandas.DataFrame(data_dict)
+#Makes a csv file from this dataframe
+data.to_csv("new_data.csv")
+print(data)
+
+'''
+
+import pandas
+
+data = pandas.read_csv("2018_Central_Park_Squirrel_Census_-_Squirrel_Data.csv")
+squirrel_fur = data["Primary Fur Color"].tolist()
+black_fur = 0
+cinnamon_fur = 0
+gray_fur = 0
+print(squirrel_fur)
+for squirrel in squirrel_fur:
+    if squirrel == "Black":
+        black_fur += 1
+    if squirrel == "Gray":
+        gray_fur += 1
+    if squirrel == "Cinnamon":
+        cinnamon_fur += 1
+print(f"Black fur : {black_fur}")
+print(f"Gray fur: {gray_fur}")
+print(f"Cinnamon fur: {cinnamon_fur}")
+
+data_dict = {
+    "Fur Colors": ["Black", "Gray", "Cinnamon"],
+    "Count": [black_fur, gray_fur, cinnamon_fur]
+}
+
+squirrel_fur_data = pandas.DataFrame(data_dict)
+print(squirrel_fur_data)
+
+# Better way to do this as demo'd on Udemy below
+data = pandas.read_csv("2018_Central_Park_Squirrel_Census_-_Squirrel_Data.csv")
+gray_squirrels_count = len(data[data["Primary Fur Color"] == "Gray"])
+black_squirrels_count = len(data[data["Primary Fur Color"] == "Black"])
+cinnamon_squirrels_count = len(data[data["Primary Fur Color"] == "Cinnamon"])
+
+
+data_dict = {
+    "Fur Colors": ["Gray", "Cinnamon", "Black"],
+    "Count": [gray_squirrels_count, cinnamon_squirrels_count, black_squirrels_count]
+}
+
+df = pandas.DataFrame(data_dict)
+df.to_csv("squirrel_fur_count")
