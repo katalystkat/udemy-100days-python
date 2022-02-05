@@ -1,0 +1,76 @@
+import turtle
+import pandas
+
+screen = turtle.Screen()
+screen.title("Kat's US States Game")
+image = "blank_states_img.gif"
+screen.addshape(image)
+turtle.shape(image)
+
+''' how convenient, it's basically the website's function that we used to draw our monsteras!
+screen.title("whatever Name")
+image = "blank_states_img.gif"
+screen.addshape(image)
+turtle.shape(image)def get_mouse_click_coor(x,y):
+    print(x, y)
+turtle.onscreenclick(get_mouse_click_coor)
+'''
+game_is_on = True
+users_guesses = []
+states = pandas.read_csv("50_states.csv")
+state_write = turtle.Turtle()
+state_write.penup()
+state_write.hideturtle()
+states_list = states.state.to_list()
+print(states_list)
+
+while game_is_on:
+    user_guess_count = len(users_guesses)
+    answer_state = screen.textinput(title=f"{user_guess_count}/50 States Correct", prompt="Guess a State!")
+    print(answer_state)
+    if answer_state == "exit":
+        break
+    user_guess = answer_state.title()
+    if user_guess in states_list:
+            if len(users_guesses) ==0:
+                users_guesses.append(user_guess)
+                print(users_guesses)
+                state_chosen = states[states.state == user_guess]
+                state_x = int(state_chosen.x)
+                state_y = int(state_chosen.y)
+                print(state_x)
+                print(state_y)
+                state_write.goto(state_x, state_y)
+                state_write.write(f"{user_guess}")
+            if user_guess not in users_guesses:
+                users_guesses.append(user_guess)
+                print(users_guesses)
+                state_chosen = states[states.state == user_guess]
+                state_x = int(state_chosen.x)
+                state_y = int(state_chosen.y)
+                state_write.goto(state_x, state_y)
+                state_write.write(f"{user_guess}")
+remaining_states = {"states": ["x", "y"]}
+for individual_states in states_list:
+    if individual_states not in users_guesses:
+        state_chosen = states[states.state == individual_states]
+        remaining_states[individual_states] = [int(state_chosen.x),  int(state_chosen.y)]
+remaining_states_csv = pandas.DataFrame(remaining_states)
+remaining_states_csv.to_csv("Remaining_States.csv")
+            # def game_over(self):
+            #     self.goto(0,0)
+            #     self.write(f"G A M E  O V E R", align=ALIGNMENT, font=FONT)
+
+            # answer_cor = states(states[state == f"{answer_state}"])
+            # print(answer_cor)
+
+# mainloop will keep our screen running, it is an alternative to the exitonclick function
+turtle.mainloop()
+screen.exitonclick()
+
+# TODO Convert the guess to Title case
+# TODO CHeck if the guess is among the 50 states
+# TODO Write correct guesses onto the map
+# TODO Use a loop to allow the user to keep guessing
+# TODO 5 Record the correct guesses in a list
+# TODO 6 Keep track of the score
