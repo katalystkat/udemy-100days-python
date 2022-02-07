@@ -1,0 +1,34 @@
+def add(*args):
+    result = 0
+    for n in args:
+        result += n
+    return result
+
+print(add(1,3,2,1,2,3,2,1))
+
+def calculate(n, **kwargs):
+    print(kwargs)
+    #**kwargs are unlimited key word arguments
+    # for key, value in kwargs.items():
+    #   print(key)
+    #   print(value)
+    #we can loop through a dictionary!
+    n+= kwargs["add"]
+    n*= kwargs["multiply"]
+    print(n)
+
+class Car:
+
+    def __init__(self, **kw):
+        #self.make = kw["make"]
+        # if we leave the code like this, we will get an error whenever we only put in
+        # one of the make/model. It will return a key error.
+        #self.model = kw["model"]
+        self.make = kw.get["make"]
+        self.model = kw.get["model"]
+        #initializing it with kw.get will allow it to return none if the kw dictionary doesn't contain
+        #the key we are looking for
+
+
+my_car = Car(make="Nissan", model="GT-R")
+print(my_car)
