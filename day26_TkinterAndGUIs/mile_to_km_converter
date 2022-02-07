@@ -1,0 +1,39 @@
+from tkinter import *
+
+window = Tk()
+window.title("Kat's Magical Distance Converter")
+window.minsize(width=300, height=300)
+window.config(padx=20, pady=20)
+# Input
+user_input = Entry(width=15)
+user_input.grid(row=1, column=1)
+
+# Mile_Label
+
+mile_label = Label(text="Miles", font=("Arial", 12, "bold"))
+mile_label.grid(row=1, column=2)
+
+# String_label
+string_label = Label(text="is equal to", font=("Arial", 12, "bold"))
+string_label.grid(row=2, column=0)
+
+# Converted_Result
+converted_result = Label(text="0", font=("Arial", 12, "bold"))
+converted_result.grid(row=2, column=1)
+
+
+# calculate_button
+
+def button_clicked():
+    new_text = user_input.get()
+    converted_result["text"] = (int(new_text) * 1.6)
+
+
+calculate_button = Button(text="Convert", command=button_clicked)
+calculate_button.grid(row=3, column=1)
+
+# km_label
+km_label = Label(text="km", font=("Arial", 12, "bold"))
+km_label.grid(row=2, column=2)
+
+window.mainloop()
