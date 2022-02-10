@@ -1,0 +1,92 @@
+from tkinter import *
+from tkinter import messagebox
+import random
+import pyperclip
+# ---------------------------- PASSWORD GENERATOR ------------------------------- #
+# Password Generator Project
+def generate_password():
+    password_entry.delete(0,END)
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+               'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+               'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+    nr_letters = random.randint(8, 10)
+    nr_symbols = random.randint(2, 4)
+    nr_numbers = random.randint(2, 4)
+    letters_generated = [random.choice(letters) for _ in range(nr_letters)]
+    symbols_generated = [random.choice(symbols) for _ in range(nr_symbols)]
+    numbers_generated = [random.choice(numbers) for _ in range(nr_numbers)]
+    password_list = letters_generated + symbols_generated + numbers_generated
+    random.shuffle(password_list)
+    new_password = ("".join(password_list))
+    password_entry.insert(0,new_password)
+    pyperclip.copy(new_password)
+#print(f"Your password is: {password}")
+
+# ---------------------------- UI SETUP ------------------------------- #
+window = Tk()
+window.title("Password Manager")
+window.config(padx=50, pady=50)
+canvas = Canvas(width=200, height=200)
+lock_img = PhotoImage(file="logo.png")
+# --- Logo --- #
+canvas.create_image(100, 100, image=lock_img)
+canvas.grid(column=1, row=0)
+# --- text labels --- #
+website_label = Label(text="Website:")
+website_label.grid(row=1, column=0)
+email_label = Label(text="Email/Username:")
+email_label.grid(row=2, column=0)
+password_label = Label(text="Password:")
+password_label.grid(row=3, column=0)
+password_label.grid(column=0, row=3)
+
+
+# ---------------------------- SAVE PASSWORD ------------------------------- #
+
+# --- button methods --- #
+
+
+def check_fields():
+    if len(website_entry.get()) == 0 or len(email_entry.get()) == 0 or len(password_entry.get()) == 0:
+        return FALSE
+
+
+def add_password():
+    website = website_entry.get()
+    email = email_entry.get()
+    password = password_entry.get()
+    # standard message box module  of tkinter module, have to import separately
+    # messagebox.showinfo(title="Title", message="Message")
+    if check_fields() is FALSE:
+        messagebox.showinfo(title="Warning", message="You left something empty!")
+    else:
+        is_ok = messagebox.askokcancel(title=website,
+                                       message=f"These are the details entered: \nEmail: {email} \nPassword:{password} \nIs it okay to save?")
+        if is_ok:
+            with open("PWManager.txt", mode='a') as pw_manager:
+                pw_manager.write(f"'\n {website}: {email},{password}")
+            website_entry.delete(0, END)
+            password_entry.delete(0, END)
+            email_entry.delete(0, END)
+
+
+# standard message box module  of tkinter module!
+# --- buttons --- #
+generate_password_button = Button(text="Generate Password", command=generate_password)
+generate_password_button.grid(row=3, column=2)
+add_button = Button(text="Add", width=36, command=add_password)
+add_button.grid(row=4, column=1, columnspan=2)
+
+# --- inputs --- #
+website_entry = Entry(width=40)
+website_entry.grid(row=1, column=1, columnspan=2)
+website_entry.focus()
+email_entry = Entry(width=40)
+email_entry.grid(row=2, column=1, columnspan=2)
+password_entry = Entry(width=25)
+password_entry.grid(row=3, column=1)
+
+window.mainloop()
