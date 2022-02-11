@@ -1,0 +1,30 @@
+"""
+try:
+    file = open("a_file.txt")
+    a_dictionary={"key": "Value"}
+    print(a_dictionary["key"])
+# We want our except to tell us exactly what error lead to the except method
+except FileNotFoundError:
+    file = open("a_file.txt", "w")
+    file.write("Something")
+# except KeyError:
+#     print("That key does not exist")
+# Even more specific way to do it:
+except KeyError as error_message:
+    print(f"The key {error_message} does not exist.")
+# Executes if things we try, all succeed. No Exceptions used
+else:
+    content=file.read()
+    print(content)
+# What will run no matter what
+finally:
+#   raise TypeError("This is an error we're making up")
+"""
+
+# Another Example
+height = float(input("Height: "))
+weight= int(input("Weight: "))
+if height > 3:
+    raise ValueError("Human Height should not be over 3 meters")
+bmi = weight/height**2
+print(bmi)
