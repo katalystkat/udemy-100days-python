@@ -1,0 +1,42 @@
+from tkinter import *
+from pandas import *
+from random import *
+BACKGROUND_COLOR = "#B1DDC6"
+MAIN_FONT = "Arial", 60, "bold"
+SECONDARY_FONT = "Arial", 40, "italic"
+# <--- FlashCards Content ---> #
+data = read_csv("data/french_words.csv")
+data.to_dict()
+french_pairs = [{row.French:row.English} for (index, row) in data.iterrows()]
+wrong_words = []
+right_words = []
+# <---UI Set up---> #
+window = Tk()
+window.title("Kat's Chinese Flashcard App")
+window.config(bg=BACKGROUND_COLOR, width=800, height=526, padx=50, pady=50)
+card_front = PhotoImage(file="images/card_front.png")
+front_canvas = Canvas(width=800, height=526, bg=BACKGROUND_COLOR, highlightthickness=0)
+front_canvas.create_image(400, 263, image=card_front)
+front_canvas.grid(row=0, column=1, columnspan=2)
+main_text=front_canvas.create_text(400, 263, text="text", font=MAIN_FONT)
+subtitle_text=front_canvas.create_text(400, 150, text="french", font=SECONDARY_FONT)
+# <--- Buttons ---> #
+def translate():
+    pass
+def new_card():
+    french_pairs = [{row.French: row.English} for (index, row) in data.iterrows()]
+    front_canvas.itemconfig(main_text, text=french_word)
+
+correct_photo = PhotoImage(file="images/right.png")
+incorrect_photo = PhotoImage(file="images/wrong.png")
+translate_button = Button(text="See Translation", command= translate)
+right_button = Button(image=correct_photo, highlightthickness=0, command=new_card)
+wrong_button = Button(image=incorrect_photo, highlightthickness=0)
+right_button.grid(row=1, column=1)
+wrong_button.grid(row=1, column=2)
+window.mainloop()
+# <--- FlashCards Content ---> #
+data = read_csv("data/french_words.csv")
+french_pairs = [{row.French:row.English} for (index, row) in data.iterrows()]
+wrong_words = []
+right_words = []
