@@ -1,42 +1,59 @@
 from tkinter import *
+
+import pandas
 from pandas import *
 from random import *
 BACKGROUND_COLOR = "#B1DDC6"
 MAIN_FONT = "Arial", 60, "bold"
 SECONDARY_FONT = "Arial", 40, "italic"
-# <--- FlashCards Content ---> #
-data = read_csv("data/french_words.csv")
-data.to_dict()
-french_pairs = [{row.French:row.English} for (index, row) in data.iterrows()]
-wrong_words = []
-right_words = []
+try:
+    data = read_csv("data/words_to_learn.csv")
+except FileNotFoundError:
+    original_data = pandas.read_csv("data/french_words.csv")
+    to_learn = original_data.to_dict(orient="records")
+else:
+    to_learn = data.to_dict(orient="records")
+current_card={}
+def new_card():
+    global current_card, flip_timer
+    window.after_cancel(flip_timer)
+    front_canvas.itemconfig(canvas_image, image= card_front)
+    front_canvas.itemconfig(subtitle_text, text="french")
+    current_card = choice(to_learn)
+    french_word = current_card["French"]
+    front_canvas.itemconfig(main_text, text=french_word)
+    flip_timer = window.after(3000, func=flip_card)
+def flip_card():
+    english_word = current_card["English"]
+    front_canvas.itemconfig(canvas_image, image= card_back)
+    front_canvas.itemconfig(subtitle_text, text="english")
+    front_canvas.itemconfig(main_text, text=english_word)
+def is_known():
+    to_learn.remove(current_card)
+    print(len(to_learn))
+    updated_data = pandas.DataFrame(to_learn)
+    updated_data.to_csv("data/words_to_learn.csv", index = False)
+    new_card()
+
 # <---UI Set up---> #
 window = Tk()
 window.title("Kat's Chinese Flashcard App")
 window.config(bg=BACKGROUND_COLOR, width=800, height=526, padx=50, pady=50)
+flip_timer = window.after(3000, func= flip_card)
 card_front = PhotoImage(file="images/card_front.png")
+card_back = PhotoImage(file="images/card_back.png")
 front_canvas = Canvas(width=800, height=526, bg=BACKGROUND_COLOR, highlightthickness=0)
-front_canvas.create_image(400, 263, image=card_front)
+canvas_image = front_canvas.create_image(400, 263, image=card_front)
 front_canvas.grid(row=0, column=1, columnspan=2)
 main_text=front_canvas.create_text(400, 263, text="text", font=MAIN_FONT)
 subtitle_text=front_canvas.create_text(400, 150, text="french", font=SECONDARY_FONT)
-# <--- Buttons ---> #
-def translate():
-    pass
-def new_card():
-    french_pairs = [{row.French: row.English} for (index, row) in data.iterrows()]
-    front_canvas.itemconfig(main_text, text=french_word)
 
 correct_photo = PhotoImage(file="images/right.png")
 incorrect_photo = PhotoImage(file="images/wrong.png")
-translate_button = Button(text="See Translation", command= translate)
-right_button = Button(image=correct_photo, highlightthickness=0, command=new_card)
-wrong_button = Button(image=incorrect_photo, highlightthickness=0)
+right_button = Button(image=correct_photo, highlightthickness=0, command=is_known)
+wrong_button = Button(image=incorrect_photo, highlightthickness=0, command=new_card)
 right_button.grid(row=1, column=1)
 wrong_button.grid(row=1, column=2)
+
 window.mainloop()
 # <--- FlashCards Content ---> #
-data = read_csv("data/french_words.csv")
-french_pairs = [{row.French:row.English} for (index, row) in data.iterrows()]
-wrong_words = []
-right_words = []
