@@ -1,0 +1,35 @@
+import smtplib
+import random
+my_email = "katalystcoding@gmail.com"
+password = "EnterYourOwnPW!!"
+# #Avoid adding connection.close() at the end like we do with file.close(), we can use with again
+# with smtplib.SMTP("smtp.gmail.com") as connection:
+#     connection.starttls()
+#     connection.login(user = my_email, password=password)
+#     connection.sendmail(
+#         from_addr =my_email,
+#         to_addrs="katalystcoding@yahoo.com",
+#         msg="Subject:Hello\n\nHello this is the body!"
+#     )
+
+import datetime as dt
+now = dt.datetime.now()
+day_of_week = now.weekday()
+# year = now.year
+# if year == 2022:
+#     print("It is STILL Covid")
+# day_of_week = now.weekday()
+# date_of_birth = dt.datetime(year=2000, month=1, day=1, hour=4)
+#print(available_quotes)
+if day_of_week == 3:
+    with open("quotes.txt") as quotes:
+        available_quotes = quotes.readlines()
+        random_quote = random.choice(available_quotes)
+    with smtplib.SMTP("smtp.gmail.com") as connection:
+        connection.starttls()
+        connection.login(user = my_email, password=password)
+        connection.sendmail(
+            from_addr =my_email,
+            to_addrs="katalystcoding@yahoo.com",
+            msg=f"Subject: Rise and Shine Lovely!\n\nHere is some positive Monday vibes from Kat of 2/17/2022; \n {random_quote}"
+        )
