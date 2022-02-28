@@ -3,23 +3,32 @@ COMPANY_NAME = "Tesla Inc"
 
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
-stockapi_key = "5TW9PX71OPIWJ59R"
-news_api_key = "bc396939bd2d486e89c1114c2869b98d"
-account_sid = "AC7ae818f5b0b79d62d5cb67c8636db01a"
-auth_token = "43d09420ef8491cd5af44c7383460e94"
-phone_number = "+18607757217"
+## removed api keys on github version
 
 import requests
+from twilio.rest import Client
+
 def get_news():
     news_url = NEWS_ENDPOINT
     news_parameters = dict(apiKey=news_api_key, q=COMPANY_NAME, language="en", pageSize=10)
     news_request = requests.get(news_url, params=news_parameters)
     stock_news = news_request.json()
-    stock_articles_titles = [stock_news["articles"][n]["title"] for n in [0,3]]
-    print(stock_articles_titles)
-    stock_articles_descriptions = [stock_news["articles"][n]["description"] for n in [0,3]]
-    print(stock_articles_descriptions)
-
+    # stock_articles_titles = [stock_news["articles"][n]["title"] for n in [0,3]]
+    # print(stock_articles_titles)
+    # stock_articles_descriptions = [stock_news["articles"][n]["description"] for n in [0,3]]
+    # print(stock_articles_descriptions)
+    articles = stock_news["articles"]
+    three_articles = articles[:3]
+    print(three_articles)
+    formatted_articles = [f"{STOCK} : Heading: {article['title']}. \n Brief: {article['description']}" for article in three_articles]
+    print(formatted_articles)
+    client = Client(account_sid, auth_token)
+    for article in formatted_articles:
+        message = client.messages.create(
+            body= article,
+            from_ = '+18607757217',
+            to = ''
+        )
 # replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
 url = STOCK_ENDPOINT
 stocks_parameters= {
@@ -29,21 +38,31 @@ stocks_parameters= {
     "apikey": stockapi_key
 }
 r = requests.get(url, params=stocks_parameters)
-data = r.json()
+data = r.json()["Time Series (Daily)"]
+data_list = [value for (key, value) in data.items()]
+yesterday_data = data_list[0]
+print(yesterday_data)
+yesterday_closing_price = yesterday_data["4. close"]
+print(yesterday_closing_price)
+day_before_yesterday = data_list[1]
+day_before_yesterday_closing_price = day_before_yesterday["4. close"]
+print(day_before_yesterday_closing_price)
+five_below = 0.95*(float(day_before_yesterday_closing_price))
+five_above = 1.05*(float(day_before_yesterday_closing_price))
+price_difference = abs(float(yesterday_closing_price) - float(day_before_yesterday_closing_price))
+if five_below <= float(yesterday_closing_price) <= five_above:
+     print("We are within 5%")
+     get_news()
+if float(yesterday_closing_price)> five_above:
+     print("Whoa, we're experiencing some >5% action today... let's see why")
+     up_down = "⬆"
+     get_news()
 
-yesterday_close= data["Time Series (Daily)"]["2022-02-23"]["4. close"]
-yesteryesterday_close = data["Time Series (Daily)"]["2022-02-22"]["4. close"]
-five_below = 0.95*(float(yesteryesterday_close))
-five_above = 1.05*(float(yesteryesterday_close))
-if five_below <= float(yesterday_close) <= five_above:
-    print("We are within 5%")
+if float(yesterday_closing_price) < five_below:
+     print("Oopsies, we're experiencing some <5% action since yesterday.. Let's see why")
+     up_down = "🔻"
+     get_news()
 
-if float(yesterday_close)> five_above:
-    print("Whoa, we're experiencing some >5% action today... let's see why")
-    get_news()
-if float(yesterday_close) < five_below:
-    print("Oopsies, we're experiencing some <5% action since yesterday.. Let's see why")
-    get_news()
 
 
 ## STEP 1: Use https://newsapi.org/docs/endpoints/everything
