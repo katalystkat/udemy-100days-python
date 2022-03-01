@@ -4,6 +4,7 @@ from datetime import datetime
 USERNAME = "-----"
 TOKEN = "-------"
 
+# ----- Creates User------#
 pixela_endpoint = "https://pixe.la/v1/users"
 user_params = {
     "token": TOKEN,
@@ -12,7 +13,7 @@ user_params = {
     "notMinor": "yes",
 }
 
-# Creates User
+# ----- Creates Graph------#
 # response= requests.post(url=pixela_endpoint, json=user_params)
 # print(response.text)
 graph_config = {
