@@ -18,3 +18,5 @@ exercise_params = {
 }
 
 post = requests.post(url=post_endpoint, json= exercise_params, headers = post_header)
+result = post.json()
+print(result)
