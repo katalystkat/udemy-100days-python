@@ -1,6 +1,8 @@
 import requests
-APP_ID = "9371fc49"
-API_KEY = "99128e7bde9680d10c5ebe8342c472e9"
+from datetime import datetime
+APP_ID = "######"
+API_KEY = "######"
+BEARER = "########"
 
 post_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
 post_header = {
@@ -20,3 +22,24 @@ exercise_params = {
 post = requests.post(url=post_endpoint, json= exercise_params, headers = post_header)
 result = post.json()
 print(result)
+
+today = datetime.now()
+today_formatted = today.strftime("%x")
+today_time = today.strftime("%X")
+print(today_formatted)
+sheety_endpoint = "https://api.sheety.co/eddca771378f3e3e1c27faca1f8e2c85/workoutApiProject/sheet1"
+headers = {"Authorization": BEARER}
+for exercise in result["exercises"]:
+    sheet_inputs = {
+        "sheet1":{
+            "date": today_formatted,
+            "time": today_time,
+            "exercise": exercise['name'].title(),
+            "duration": exercise["duration_min"],
+            "calories": exercise["nf_calories"],
+
+    }
+    }
+
+sheet_post = requests.post(sheety_endpoint, json=sheet_inputs, headers = headers)
+print(sheet_post.text)
