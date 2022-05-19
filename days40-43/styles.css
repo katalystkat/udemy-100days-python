@@ -1,0 +1,24 @@
+
+  body {
+    background-color: #FAF3DC;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+  }
+
+  hr {
+    border-color: #F0AD24 ;
+    border-style: none;
+    border-top-style: dotted;
+    border-width: 10px;
+    width: 30%;
+  }
+
+  h1{
+    color: #C39155;
+  }
+  h3 {
+    color: #C39155;
+  }
+  img {
+    height: 250px;
+  }
