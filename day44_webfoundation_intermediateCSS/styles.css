@@ -4,6 +4,18 @@ h1{
   width: 10%;
   margin: 0 auto 0 auto;
 }
+h2{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.5rem;
+  color: #E75685;
+  font-weight: normal;
+}
+h3{
+  color: #11999E;
+}
+a{
+  color: #11999E;
+}
 body{
   margin:0;
   text-align: center;
@@ -22,19 +34,10 @@ body{
 
 .middle-container{
   background-color:#983B65;
-  height:200px;
-  width: 200px;
-  border: solid 20px;
-  border-color: black;
-  margin-left: 260px;
 }
 
 .bottom-container{
   background-color:#E75685;
-  height:200px;
-  width: 200px;
-  border: solid 10px;
-  margin-left: 540px;
 }
 .bottom-cloud{
   position: absolute;
